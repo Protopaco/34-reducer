@@ -22,6 +22,7 @@ describe('ColorPicker container', () => {
 
         const colorInput = await screen.findByTestId('colorInput');
         const undoButton = await screen.findByText('undo');
+        const colorDisplay = await screen.findByTestId('colorDisplay');
 
         fireEvent.change(colorInput, {
             target: { value: '#000000' }
@@ -33,8 +34,6 @@ describe('ColorPicker container', () => {
         })
 
         fireEvent.click(undoButton);
-
-        const colorDisplay = await screen.findByTestId('colorDisplay');
 
         expect(colorDisplay).toHaveStyle({ backgroundColor: '#000000' })
 

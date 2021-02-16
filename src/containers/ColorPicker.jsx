@@ -1,21 +1,36 @@
-import React from 'react';
-import useRecord from '../hooks/useRecord'
+import React, { useReducer } from 'react';
+// import useRecord from '../hooks/useRecord'
+import reducer, { initialState } from '../reducers/colorReducer'
 
 export const ColorPicker = () => {
-    const { current, undo, redo, record } = useRecord('#FF0000');
+    // const { current, undo, redo, record } = useRecord('#FF0000');
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    const handleChange = (type, payload) => {
+        dispatch({
+            type,
+            payload
+        })
+    }
 
     return (
         <>
-            <button onClick={undo}>undo</button>
-            <button onClick={redo}>redo</button>
+            <button
+                onClick={() => handleChange('UNDO_COLOR', "")}>
+                undo
+            </button>
+            <button
+                onClick={() => handleChange('REDO_COLOR', "")}>
+                redo
+            </button>
             <input
                 data-testid="colorInput"
                 type="color"
-                value={current}
-                onChange={({ target }) => record(target.value)} />
+                value={state.currentColor}
+                onChange={({ target }) => handleChange('CHANGE_COLOR', target.value)} />
             <div
                 data-testid="colorDisplay"
-                style={{ backgroundColor: current, width: '10rem', height: '10rem' }}>
+                style={{ backgroundColor: state.currentColor, width: '10rem', height: '10rem' }}>
             </div>
         </>
     );
