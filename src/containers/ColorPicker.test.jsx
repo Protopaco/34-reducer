@@ -13,7 +13,11 @@ describe('ColorPicker container', () => {
             target: { value: '#000000' }
         })
 
-        expect(colorDisplay).toHaveStyle({ backgroundColor: '#000000' })
+        waitFor(() => {
+            expect(colorDisplay).toHaveStyle({ backgroundColor: '#000000' })
+        })
+
+
 
     })
 
@@ -35,9 +39,11 @@ describe('ColorPicker container', () => {
 
         fireEvent.click(undoButton);
 
-        expect(colorDisplay).toHaveStyle({ backgroundColor: '#000000' })
+        waitFor(() => {
+            expect(colorDisplay).toHaveStyle({ backgroundColor: '#000000' });
+        });
 
-    });
+    })
 
     it('clicks "redo" button', async () => {
         render(<ColorPicker />);
@@ -59,7 +65,8 @@ describe('ColorPicker container', () => {
         fireEvent.click(redoButton);
 
         const colorDisplay = await screen.findByTestId('colorDisplay');
-
-        expect(colorDisplay).toHaveStyle({ backgroundColor: '#FFFFFF' });
+        waitFor(() => {
+            expect(colorDisplay).toHaveStyle({ backgroundColor: '#FFFFFF' });
+        })
     })
-})
+});
