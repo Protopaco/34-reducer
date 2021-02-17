@@ -9,21 +9,23 @@ export default function reducer(state, action) {
     switch (action.type) {
         case 'CHANGE_COLOR':
             return {
+                ...state,
                 colorHistory: [...state.colorHistory, state.currentColor],
                 currentColor: action.payload,
-                colorFuture: []
             };
         case 'UNDO_COLOR':
             return {
-                colorFuture: [state.currentColor, state.future],
+                ...state,
+                colorFuture: [state.currentColor, ...state.colorFuture],
                 currentColor: state.colorHistory[state.colorHistory.length - 1],
-                colorHistory: state.colorHistory.slice(state.colorHistory.length - 1),
+                colorHistory: state.colorHistory.slice(0, -1),
             };
         case 'REDO_COLOR':
             return {
+                ...state,
                 colorHistory: [...state.colorHistory, state.currentColor],
                 currentColor: state.colorFuture[0],
-                colorFuture: state.colorFuture.slice(state.colorFuture.length - 1)
+                colorFuture: state.colorFuture.slice(1)
             }
         default:
             return state;
